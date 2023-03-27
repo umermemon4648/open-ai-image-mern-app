@@ -1,26 +1,34 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import {getRandomPrompt} from '../utils'
+import {getRandomPrompt} from '../utils/index'
 import { preview } from '../assets'
 import { Loader, Card, FormField  } from '../components'
 
 const CreatePost = () => {
   const navigate  = useNavigate()
-  const [form, setForm] = [{
-    fname: '',
-    prompt: '',
-    pic: '',
-  }]
-  const [generatingImg, setGeneratingImg] = useState(null)
-  const [loading, setLoading] = useState(null)
+const [form, setForm] = useState({
+  fname: '',
+  prompt: '',
+  pic: '',
+});
+  const [generatingImg, setGeneratingImg] = useState(false)
+  const [loading, setLoading] = useState(false)
   const handleSubmitForm = ()=>{
 
   }
 
   const handleChange = (e)=>{
+    setForm({ ...form, [e.target.name]: e.target.value})
 
   }
   const handleSurpriseMe = ()=>{
+    // form.prompt.charAt(0).toUpperCase()
+    // alert("HandleSurprixe")
+    const randomPrompt = getRandomPrompt(form.prompt)
+    let updatedVal = randomPrompt.charAt(0).toUpperCase()+ randomPrompt.slice(1);
+    setForm({ ...form, prompt:updatedVal})
+  }
+  const imgGeneratorHandler = ()=>{
 
   }
   
@@ -44,7 +52,7 @@ const CreatePost = () => {
           handleChange = {handleChange}
           />
 
-<FormField
+          <FormField
           labelName = "Prompt"
           type = "text"
           name = "prompt"
@@ -61,13 +69,27 @@ const CreatePost = () => {
             ):(
               <img src={preview} alt="preview" className='w-9/12 h-9/12 object-contain opacity-50 '/>
             )}
-          </div>
 
+          {generatingImg && (
+            <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)]">
+              <Loader/>
+            </div>
+          )}
+
+          </div>
         </div>
 
+            <div className="flex gap-5 mt-5">
+              <button className='text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-6 py-3 text-center' type='button' onClick={imgGeneratorHandler} >{generatingImg? 'Generating' : 'Generate'}</button>
+            </div>
+
+            <div className="mt-10">
+              <p className='mt-2 text-[#666e75] text-sm'>Once you have created the image you want, you can share it with others in the community</p>
+              <button className='mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-6 py-3 text-center' type='button' onClick={imgGeneratorHandler} >{loading? 'Sharing....' : 'Share with the community'}</button>
+
+            </div>
+
       </form>
-
-
       </section>
     </>
   )
