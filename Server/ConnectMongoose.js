@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-dbName='loginSingup' 
+dbName='E-Commerce' 
 const mongoUrl = `mongodb://localhost:27017/${dbName}`
 
 const connectToDB = () =>{
