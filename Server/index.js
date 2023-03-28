@@ -3,6 +3,8 @@ const connectToDB = require('./ConnectMongoose')
 const express = require('express')
 const cors = require('cors')
 const cloudinary = require('cloudinary')
+const postRoutes = require('./routes/postRoutes')
+const dalleRoutes = require('./routes/dalleRoutes')
 dotnet.config()
 connectToDB()
 const port = 5000
@@ -17,7 +19,8 @@ app.get('/', async(req, res)=>{
 
 
 // getting all the provided routes
-app.use('/api/product',productRoutes)
+app.use('/api/v1',postRoutes)
+app.use('/api/v1',dalleRoutes)
 
 
 app.listen(port, () => {

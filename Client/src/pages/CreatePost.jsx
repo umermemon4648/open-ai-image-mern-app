@@ -28,7 +28,29 @@ const [form, setForm] = useState({
     let updatedVal = randomPrompt.charAt(0).toUpperCase()+ randomPrompt.slice(1);
     setForm({ ...form, prompt:updatedVal})
   }
-  const imgGeneratorHandler = ()=>{
+  const imgGeneratorHandler = async()=>{
+    if(form.prompt){
+      try {
+        setGeneratingImg(true)
+        const reponse = await fetch("http://lo calhost:5000/api/v1/dalle", {
+          method: "POST",
+          headers:{
+            "Content-Type": "application/json"
+          },
+          body:JSON.stringify({prompt: form.prompt})
+        })
+        const data = await reponse.json()
+        setForm({...form, pic: `data:image/jpeg;base_64,${data.pic}`})
+      } catch (error) {
+        alert(error)
+      }
+      finally{
+        setGeneratingImg(false)
+      }
+    }
+    else{
+      alert("Pls Enter prompt")
+    }
 
   }
   
