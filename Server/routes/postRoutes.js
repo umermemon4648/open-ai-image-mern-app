@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-// const {} from ''
-// const {newOrder,deleteOrder} = require('../controllers/orderController')
-// router.post('/new',isAuthenticate,newOrder)
+const {getAllPosts, createPosts} = require('../controller/postController')
+
+router.post('/new-post',createPosts)
+router.get('/get-allpost',getAllPosts)
 
 module.exports = router

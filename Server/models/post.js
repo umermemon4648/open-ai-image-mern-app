@@ -8,7 +8,7 @@ const PostSchema =  new Schema({
     prompt:
     {type: String, required: true},
     
-    photo:
+    pic:
     {type: String, required: true},
 })
 

@@ -13,8 +13,32 @@ const [form, setForm] = useState({
 });
   const [generatingImg, setGeneratingImg] = useState(false)
   const [loading, setLoading] = useState(false)
-  const handleSubmitForm = ()=>{
 
+  const handleSubmitForm = async(e)=>{
+    e.preventDefault();
+    if(form.prompt && form.pic){
+      setLoading(true)
+      try {
+        const response = await fetch("http://localhost:5000/api/v1/new-post",{
+          method: "POST",
+          headers:{'Content-Type': 'application/json',},
+          body: JSON.stringify(form)
+
+        })
+        await response.json()
+        navigate('/')
+
+        
+      } catch (error) {
+        alert(error)
+      }
+      finally{
+        setLoading(false)
+      }
+    }
+    else{
+      alert("Enter promt to generate image")
+    }
   }
 
   const handleChange = (e)=>{
@@ -28,11 +52,14 @@ const [form, setForm] = useState({
     let updatedVal = randomPrompt.charAt(0).toUpperCase()+ randomPrompt.slice(1);
     setForm({ ...form, prompt:updatedVal})
   }
+
+
+
   const imgGeneratorHandler = async()=>{
     if(form.prompt){
       try {
         setGeneratingImg(true)
-        const reponse = await fetch("http://lo calhost:5000/api/v1/dalle", {
+        const reponse = await fetch("http://localhost:5000/api/v1/dalle", {
           method: "POST",
           headers:{
             "Content-Type": "application/json"

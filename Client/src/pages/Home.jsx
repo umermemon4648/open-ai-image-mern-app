@@ -17,6 +17,31 @@ const Home = () => {
   const [allpost, setAllPost] = useState(null)
   const [searchKeyword, setSearchedKeyword] = useState('')
 
+  useEffect(() => {
+    const fetchPost = async()=>{
+      setLoading(true)
+      try {
+        const response = await fetch("http://localhost:5000/api/v1/get-allpost",{
+          method: "GET",
+          headers:{'Content-Type': 'application/json',},
+          body: JSON.stringify(form)
+
+        })
+        if(response.status===201){
+          const result = await response.json()
+          setAllPost(result.data.reverse())
+        }
+      } catch (error) {
+        alert(error)
+      }
+      finally{
+        setLoading(false)
+      }
+    }
+    fetchPost()
+  }, [])
+  
+
   return (
     <section className='max-w-7xl mx-auto text-start' >
       <div>
